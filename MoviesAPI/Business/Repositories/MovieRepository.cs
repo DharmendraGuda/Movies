@@ -22,14 +22,15 @@ namespace MoviesAPI.Business.Repositories
         {
             IEnumerable<string> genres;
             genres=  !string.IsNullOrWhiteSpace(request.Genres) ?request.Genres.Split(',').ToList(): new List<string>();
-            
-            var movies = await _dbContext.Movies.Include(m=>m.Genres)
-                .Where((m => String.IsNullOrEmpty(request.Title) || m.Title.Contains(request.Title))) 
-                .Where(m => request.YearofRelease == null || m.YearOfRelease == request.YearofRelease.Value)
-                .Where(m => String.IsNullOrEmpty(request.Genres)  || m.Genres.Any(g=> genres.Contains(g.GenreType)))
-                .OrderBy(m=>m.Title)
-                .ToListAsync();
-                 
+
+            var movies = await _dbContext.Movies.Include(m => m.Genres)
+                .Where  (m => (String.IsNullOrEmpty(request.Title) || m.Title.Contains(request.Title))
+                            && ( request.YearofRelease == null || m.YearOfRelease == request.YearofRelease.Value)
+                            &&( String.IsNullOrEmpty(request.Genres) || m.Genres.Any(g => genres.Contains(g.GenreType)))
+                        )
+                .OrderBy(m => m.Title)
+                .ToListAsync();           
+
             return movies;
         }
 
