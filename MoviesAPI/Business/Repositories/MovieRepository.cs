@@ -23,7 +23,7 @@ namespace MoviesAPI.Business.Repositories
             IEnumerable<string> genres;
             genres=  !string.IsNullOrWhiteSpace(request.Genres) ?request.Genres.Split(',').ToList(): new List<string>();
 
-            var movies = await _dbContext.Movies.Include(m => m.Genres)
+            var movies = await _dbContext.Movies.AsNoTracking().Include(m => m.Genres).AsNoTracking()
                 .Where  (m => (String.IsNullOrEmpty(request.Title) || m.Title.Contains(request.Title))
                             && ( request.YearofRelease == null || m.YearOfRelease == request.YearofRelease.Value)
                             &&( String.IsNullOrEmpty(request.Genres) || m.Genres.Any(g => genres.Contains(g.GenreType)))
@@ -36,13 +36,13 @@ namespace MoviesAPI.Business.Repositories
 
         public async Task<IEnumerable<Movie>> GetTopRateddMovies()
         {
-            var movies = await _dbContext.Movies.Include(m => m.Genres).OrderByDescending(m=>m.AverageRating).ThenBy(m => m.Title).Take(5).ToListAsync();
+            var movies = await _dbContext.Movies.AsNoTracking().Include(m => m.Genres).OrderByDescending(m=>m.AverageRating).ThenBy(m => m.Title).Take(5).ToListAsync();
             return movies;
         }
 
         public async Task<IEnumerable<Movie>> GetTopRatedMoviesByUser(int userId)
         {
-                var movies = await _dbContext.UserRatings.Where(ur => ur.UserId == userId)
+                var movies = await _dbContext.UserRatings.AsNoTracking().Where(ur => ur.UserId == userId)
                     .OrderByDescending(m => m.Rating).Take(5).Include(ur => ur.Movie).Select(ur => ur.Movie).OrderBy(m => m.Title).ToListAsync();
                 return movies;            
             
