@@ -36,7 +36,7 @@ namespace MoviesAPI.Business.Repositories
 
         public async Task<IEnumerable<Movie>> GetTopRateddMovies()
         {
-            var movies = await _dbContext.Movies.OrderByDescending(m=>m.AverageRating).ThenBy(m => m.Title).Take(5).ToListAsync();
+            var movies = await _dbContext.Movies.Include(m => m.Genres).OrderByDescending(m=>m.AverageRating).ThenBy(m => m.Title).Take(5).ToListAsync();
             return movies;
         }
 
