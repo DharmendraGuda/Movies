@@ -16,6 +16,5 @@ The MoviesAPI  is a Dotnet5 web api project. It uses local DB. Execute the comma
  
  Refactor the startup class. Rerganize dependencies and IOC.
 
- Implement unit testing and mocking to cover all the use cases. 
+ unit testing to cover all the use cases. 
  
- Authentication/Authorization.
