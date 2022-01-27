@@ -5,6 +5,7 @@ using MoviesAPI.ApiContracts.Requests;
 using System.Threading.Tasks;
 using AutoMapper;
 using MoviesAPI.Domain;
+using MoviesAPI.Contracts.V1;
 
 namespace MoviesAPI.Controllers
 {
@@ -19,7 +20,8 @@ namespace MoviesAPI.Controllers
             _ratingRepository = ratingRepository;
             _mapper = mapper;
         }
-        [HttpPost]
+  
+        [HttpPost(ApiRoutes.Ratings.SaveRating)]
         public async Task<ActionResult> SaveRating([FromBody] RatingRequest rating)
         {
             var res= await _ratingRepository.SaveRating(_mapper.Map<UserMovieRating>(rating));

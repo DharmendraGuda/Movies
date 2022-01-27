@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using MoviesAPI.Contracts.V1;
 
 namespace MoviesAPI.Controllers
 {
@@ -22,7 +23,7 @@ namespace MoviesAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("SearchMovies")]
+        [HttpGet(ApiRoutes.Movies.SearchMovies)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,7 +37,7 @@ namespace MoviesAPI.Controllers
 
         }
 
-        [HttpGet("TopRatedMoviesByUser")]
+        [HttpGet(ApiRoutes.Movies.TopRatedMoviesByUser)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,11 +52,11 @@ namespace MoviesAPI.Controllers
 
         }
 
-        [HttpGet("TopRateddMovies")]
+        [HttpGet(ApiRoutes.Movies.TopRatedMovies)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<MovieResponse>>> TopRateddMovies()
+        public async Task<ActionResult<IEnumerable<MovieResponse>>> TopRatedMovies()
         {
             var movies = await _movieRepository.GetTopRateddMovies();
             if (movies.Any())

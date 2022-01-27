@@ -36,7 +36,7 @@ namespace Movies.Tests
         public async void GetTopRatedMovies_DataExist_ReturnOk()
         {
             moviesMock.Setup(x => x.GetTopRateddMovies()).ReturnsAsync(new List<Movie>() { new Movie { MovieId = 1, NumberRated = 1, AverageRating = 5 } });
-            var actual = await _moviesController.TopRateddMovies();
+            var actual = await _moviesController.TopRatedMovies();
             var  okResult = Assert.IsType<OkObjectResult>(actual.Result);            
         }
         [Fact]
@@ -53,7 +53,7 @@ namespace Movies.Tests
         public async void GetTopRatedMovies_NoData_ReturnNotFound()
         {            
             moviesMock.Setup(x=>x.GetTopRateddMovies()).ReturnsAsync(new List<Movie>());            
-            var actual = await _moviesController.TopRateddMovies();
+            var actual = await _moviesController.TopRatedMovies();
             var notFoundResult = Assert.IsType<NotFoundResult>(actual.Result);
             
         }
